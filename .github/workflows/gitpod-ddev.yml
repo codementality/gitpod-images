@@ -1,0 +1,30 @@
+name: gitpod-ddev
+
+on:
+  ## Allows manual trigger
+  workflow_dispatch:
+  ## On push to repo
+  push:
+  ## Cron schedule
+  schedule:
+    - cron: '0 6 * * 0'
+
+jobs:
+  docker-build:
+    name: Build Gitpod Image with DDEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get Date for tagging
+        id: datestamp
+        run: echo ::set-output name=datetag::$(date +'%Y.%m.%d')
+      - name: Build Image
+        run: docker build . --file Dockerfile --tag codementality/gitpod-ddev:${{steps.datestamp.outputs.datetag}} --tag codementality/gitpod-ddev
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Push latest image
+        run: docker push codementality/gitpod-ddev:latest
+      - name: Push the datestamp tagged image
+        run: docker push codementality/gitpod-ddev:${{steps.datestamp.outputs.datetag}}
+  
