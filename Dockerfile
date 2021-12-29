@@ -17,8 +17,9 @@ RUN install-packages python3 python3-pip libxext6 libxrender1 libxtst6 libfreety
   # Install Projector
 USER gitpod
 RUN pip3 install projector-installer \
+  # Prevents projector install from asking for the license acceptance
+  && mkdir -p ~/.projector/configs \
   # Install PhpStorm
-  && mkdir -p ~/.projector/configs  # Prevents projector install from asking for the license acceptance \
   && projector install 'PhpStorm 2021.1.4' --no-auto-run
 USER root
 COPY phpstorm /usr/local/bin/phpstorm
