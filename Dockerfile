@@ -1,13 +1,12 @@
 FROM gitpod/workspace-full:latest
 
 ### Google CLI for gcloud ###
-USER root
-RUN cd ~/; curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-367.0.0-linux-x86_64.tar.gz \
-  && tar -xvzf google-cloud-sdk-367.0.0-linux-x86_64.tar.gz \
-  && ./google-cloud-sdk/install.sh
+USER gitpod
+RUN curl https://sdk.cloud.google.com > install.sh \
+  && bash install.sh --disable-prompts
 
 ### AWS CLI ###
-USER root
+USER gitpod
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
   && unzip awscliv2.zip \
   && sudo ./aws/install
