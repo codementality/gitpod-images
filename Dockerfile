@@ -11,19 +11,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   && unzip awscliv2.zip \
   && sudo ./aws/install
 
-### Install Projector and PHPStorm ###
-USER root
-RUN install-packages python3 python3-pip libxext6 libxrender1 libxtst6 libfreetype6 libxi6 telnet netcat
-  # Install Projector
-USER gitpod
-RUN pip3 install projector-installer \
-  # Prevents projector install from asking for the license acceptance
-  && mkdir -p ~/.projector/configs \
-  # Install PhpStorm
-  && projector install 'PhpStorm 2021.1.4' --no-auto-run
-USER root
-COPY phpstorm /usr/local/bin/phpstorm
-
 ### Install DDEV ###
 USER gitpod
 RUN brew update && brew install drud/ddev/ddev && mkcert -install
