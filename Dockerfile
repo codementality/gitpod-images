@@ -88,7 +88,7 @@ ENV TRIGGER_REBUILD=1
 RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
     && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
     && apt-get update \
-    && apt-get install -y tailscale
+    && install-packages tailscale
 
 ### Install nix ###
 LABEL dazzle/layer=tool-nix
@@ -134,7 +134,7 @@ RUN curl -o /usr/bin/dazzle-util -fsSL https://github.com/csweichel/dazzle/relea
 ### Projector + PhpStorm + DDEV ###
 LABEL dazzle/layer=projector-phpstorm-ddev
 USER root
-RUN apt-get -qq install -y python3 python3-pip libxext6 libxrender1 libxtst6 libfreetype6 libxi6 telnet netcat \
+RUN install-packages python3 python3-pip libxext6 libxrender1 libxtst6 libfreetype6 libxi6 telnet netcat \
     && pip3 install projector-installer \
     ## Prevents projector install from asking for license acceptance
     && mkdir -p ~/.projector/configs \
