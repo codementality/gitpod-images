@@ -1,5 +1,9 @@
 FROM gitpod/workspace-full:latest
 
+### install xdg-utils ###
+USER root
+RUN install-packages xdg-utils
+
 ### Google CLI for gcloud ###
 USER gitpod
 RUN curl https://sdk.cloud.google.com > install.sh \
